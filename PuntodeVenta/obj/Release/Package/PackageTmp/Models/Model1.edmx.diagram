@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="c8ef14f152bf4cd393ac61e9944104f7" Name="Diagram1">
+        <EntityTypeShape EntityType="PuntoVentaModel.RRHH_Personal" Width="1.5" PointX="0.75" PointY="1" />
+        <EntityTypeShape EntityType="PuntoVentaModel.RRHH_Usuario" Width="1.5" PointX="3" PointY="0.875" />
+        <EntityTypeShape EntityType="PuntoVentaModel.VENT_Cliente" Width="1.5" PointX="5.25" PointY="0.875" />
+        <AssociationConnector Association="PuntoVentaModel.FK_RRHH_Usuario_RRHH_Personal" />
+        <AssociationConnector Association="PuntoVentaModel.FK_VENT_Cliente_RRHH_Usuario" />
+        <EntityTypeShape EntityType="PuntoVentaModel.VENT_Proveedor" Width="1.5" PointX="2.75" PointY="4.75" />
+        <EntityTypeShape EntityType="PuntoVentaModel.BODE_PRODUCTO" Width="1.5" PointX="7.875" PointY="7.875" />
+        <EntityTypeShape EntityType="PuntoVentaModel.VENT_CompraDetalle" Width="1.5" PointX="7.875" PointY="4.875" />
+        <EntityTypeShape EntityType="PuntoVentaModel.VENT_CompraEncabezado" Width="1.5" PointX="5.625" PointY="4.75" />
+        <EntityTypeShape EntityType="PuntoVentaModel.VENT_VentaDetalle" Width="1.5" PointX="10.125" PointY="1.125" />
+        <EntityTypeShape EntityType="PuntoVentaModel.VENT_VentaEncabezado" Width="1.5" PointX="7.875" PointY="0.875" />
+        <AssociationConnector Association="PuntoVentaModel.FK_VENT_CompraDetalle_BODE_PRODUCTO" />
+        <AssociationConnector Association="PuntoVentaModel.FK_VENT_VentaDetalle_BODE_PRODUCTO" />
+        <AssociationConnector Association="PuntoVentaModel.FK_VENT_CompraEncabezado_RRHH_Usuario" />
+        <AssociationConnector Association="PuntoVentaModel.FK_VENT_VentaEncabezado_RRHH_Usuario" />
+        <AssociationConnector Association="PuntoVentaModel.FK_VENT_VentaEncabezado_VENT_Cliente" />
+        <AssociationConnector Association="PuntoVentaModel.FK_VENT_CompraDetalle_VENT_CompraEncabezado" />
+        <AssociationConnector Association="PuntoVentaModel.FK_VENT_CompraEncabezado_VENT_Proveedor" />
+        <AssociationConnector Association="PuntoVentaModel.FK_VENT_VentaDetalle_VENT_VentaEncabezado" />
+        <EntityTypeShape EntityType="PuntoVentaModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="7.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

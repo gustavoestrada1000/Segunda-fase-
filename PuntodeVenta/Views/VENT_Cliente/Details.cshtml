@@ -1,0 +1,58 @@
+﻿@model PuntodeVenta.Models.VENT_Cliente
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <div>
+        <h4>VENT_Cliente</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Nombre)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.FechaNac)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.FechaNac)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Direccion)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Direccion)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.RRHH_Usuario.contraseña)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.RRHH_Usuario.contraseña)
+            </dd>
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.nit }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</body>
+</html>

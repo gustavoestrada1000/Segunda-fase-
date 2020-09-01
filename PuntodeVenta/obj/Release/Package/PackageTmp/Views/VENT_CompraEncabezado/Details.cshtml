@@ -1,0 +1,43 @@
+﻿@model PuntodeVenta.Models.VENT_CompraEncabezado
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>VENT_CompraEncabezado</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Fecha)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fecha)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RRHH_Usuario.contraseña)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RRHH_Usuario.contraseña)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VENT_Proveedor.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VENT_Proveedor.Nombre)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.NumeroFactura }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

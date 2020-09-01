@@ -1,0 +1,139 @@
+﻿@model IEnumerable<PuntodeVenta.Models.VENT_CompraEncabezado>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- pageContent -->
+<section class="full-width pageContent">
+    <section class="full-width header-well">
+        <div class="full-width header-well-icon">
+            <i class="zmdi zmdi-shopping-cart"></i>
+        </div>
+        <div class="full-width header-well-text">
+            <p class="text-condensedLight">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Unde aut nulla accusantium minus corporis accusamus fuga harum natus molestias necessitatibus.
+            </p>
+        </div>
+    </section>
+    <div class="full-width divider-menu-h"></div>
+    <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
+        <div class="mdl-tabs__tab-bar">
+            <a href="#tabNewProduct" class="mdl-tabs__tab is-active">NEW</a>
+            <a href="#tabListProducts" class="mdl-tabs__tab">LIST</a>
+        </div>
+        <div class="mdl-tabs__panel is-active" id="tabNewProduct">
+            <div class="mdl-grid">
+                <div class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--12-col-desktop">
+                    <div class="full-width panel mdl-shadow--2dp">
+                        <div class="full-width panel-tittle bg-primary text-center tittles">
+                            INGRESO DE FACTURAS POR COMPRAS
+                        </div>
+                        <div class="full-width panel-content">
+
+                            <form action="/VENT_CompraEncabezado/create" method="post">
+                                @Html.AntiForgeryToken()
+                                <div class="mdl-grid">
+                                    <div class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop">
+                                        <h5 class="text-condensedLight">Información de la Factura</h5>
+
+                                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                            <input class="mdl-textfield__input" type="text" id="NumeroFactura" name="NumeroFactura">
+                                            <label class="mdl-textfield__label" for="NameProduct">No. Factura</label>
+                                            <span class="mdl-textfield__error">Invalid name</span>
+                                        </div>
+
+                                        <div class="mdl-textfield mdl-js-textfield">
+
+                                            @Html.DropDownList("Idproveedor", null, htmlAttributes: new { @class = "mdl-textfield__input" })
+
+                                        </div>
+
+                                       
+                               
+                                    </div>
+                                    <div class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--6-col-desktop">
+                                        <h5 class="text-condensedLight">Fecha de la Factura</h5>
+                                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                            <input class="mdl-textfield__input" id="Fecha" name="Fecha" type="date" required>
+                                        </div>
+
+                                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                            <input class="mdl-textfield__input" type="text" pattern="-?[0-9.]*(\.[0-9]+)?" id="total" name="total">
+                                            <label class="mdl-textfield__label" for="PriceProduct">Total de la Factura</label>
+                                            <span class="mdl-textfield__error">Invalid price</span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <p class="text-center">
+                                    <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored bg-primary" id="btn-addProduct">
+                                        <i class="zmdi zmdi-plus"></i>
+                                    </button>
+                                    <div class="mdl-tooltip" for="btn-addProduct">Add Product</div>
+                                </p>
+                            </form>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="mdl-tabs__panel" id="tabListProducts">
+
+            <center>
+                <h2>Listado de Facturas Sin Agregar Detalle</h2>
+            </center>
+            <table class="table" border="1" style="text-align:center; margin: 0 auto;">
+                <tr>
+                    <th width="200">
+                        Fecha de Facturación
+                    </th>
+                    <th width="200">
+                        Número de Factura
+                    </th>
+                    <th width="200">
+                        Proveedor
+                    </th>
+                    <th width="200">
+                        Total
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Fecha)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NumeroFactura)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.VENT_Proveedor.Nombre)
+                        </td>
+                        <td>
+                            Q @Html.DisplayFor(modelItem => item.Total)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Agregar Detalle", "Edit", new { id = item.NumeroFactura }) |
+
+                        </td>
+                    </tr>
+                }
+
+            </table>
+
+
+
+
+
+
+        </div>
+    </div>
+</section>

@@ -1,0 +1,51 @@
+﻿@model PuntodeVenta.Models.VENT_CompraDetalle
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>VENT_CompraDetalle</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.cantidad)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.cantidad)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.precioU)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.precioU)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BODE_PRODUCTO.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BODE_PRODUCTO.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VENT_CompraEncabezado.UserSystem)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VENT_CompraEncabezado.UserSystem)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

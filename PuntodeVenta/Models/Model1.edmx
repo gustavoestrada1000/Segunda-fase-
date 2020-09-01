@@ -1,0 +1,839 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="PuntoVentaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BODE_PRODUCTO">
+          <Key>
+            <PropertyRef Name="IdProducto" />
+          </Key>
+          <Property Name="IdProducto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" />
+          <Property Name="Marca" Type="varchar" MaxLength="50" />
+          <Property Name="Modelo" Type="varchar" MaxLength="50" />
+          <Property Name="Categoria" Type="varchar" MaxLength="50" />
+          <Property Name="Existencia" Type="int" />
+          <Property Name="PrecioVenta" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="PrecioCompra" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="RRHH_Personal">
+          <Key>
+            <PropertyRef Name="idtrabajador" />
+          </Key>
+          <Property Name="idtrabajador" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" />
+          <Property Name="FechaNacimiento" Type="date" />
+          <Property Name="Correo" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="RRHH_Usuario">
+          <Key>
+            <PropertyRef Name="usuario" />
+          </Key>
+          <Property Name="IdTrabajador" Type="int" Nullable="false" />
+          <Property Name="usuario" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="contraseña" Type="varchar" MaxLength="50" />
+          <Property Name="estado" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="VENT_Cliente">
+          <Key>
+            <PropertyRef Name="nit" />
+          </Key>
+          <Property Name="nit" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" />
+          <Property Name="FechaNac" Type="date" />
+          <Property Name="Direccion" Type="varchar" MaxLength="50" />
+          <Property Name="UserSystem" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="VENT_CompraDetalle">
+          <Key>
+            <PropertyRef Name="NumeroFactura" />
+            <PropertyRef Name="IdProducto" />
+          </Key>
+          <Property Name="NumeroFactura" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="IdProducto" Type="int" Nullable="false" />
+          <Property Name="cantidad" Type="int" />
+          <Property Name="precioU" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="VENT_CompraEncabezado">
+          <Key>
+            <PropertyRef Name="NumeroFactura" />
+          </Key>
+          <Property Name="Idproveedor" Type="int" Nullable="false" />
+          <Property Name="Fecha" Type="date" />
+          <Property Name="NumeroFactura" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserSystem" Type="varchar" MaxLength="50" />
+          <Property Name="Estado" Type="varchar" MaxLength="50" />
+          <Property Name="Total" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="VENT_Proveedor">
+          <Key>
+            <PropertyRef Name="IdEmpresa" />
+          </Key>
+          <Property Name="IdEmpresa" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" />
+          <Property Name="Telefono" Type="varchar" MaxLength="10" />
+          <Property Name="Direccion" Type="varchar" MaxLength="50" />
+          <Property Name="Asesor" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="VENT_VentaDetalle">
+          <Key>
+            <PropertyRef Name="numerofactura" />
+            <PropertyRef Name="codigoproducto" />
+          </Key>
+          <Property Name="numerofactura" Type="int" Nullable="false" />
+          <Property Name="codigoproducto" Type="int" Nullable="false" />
+          <Property Name="cantidad" Type="int" />
+          <Property Name="costoUni" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="VENT_VentaEncabezado">
+          <Key>
+            <PropertyRef Name="NumeroFactura" />
+          </Key>
+          <Property Name="NitCliente" Type="varchar" MaxLength="15" />
+          <Property Name="NumeroFactura" Type="int" Nullable="false" />
+          <Property Name="fecha" Type="date" />
+          <Property Name="serie" Type="varchar" MaxLength="50" />
+          <Property Name="UserSystem" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_RRHH_Usuario_RRHH_Personal">
+          <End Role="RRHH_Personal" Type="Self.RRHH_Personal" Multiplicity="1" />
+          <End Role="RRHH_Usuario" Type="Self.RRHH_Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RRHH_Personal">
+              <PropertyRef Name="idtrabajador" />
+            </Principal>
+            <Dependent Role="RRHH_Usuario">
+              <PropertyRef Name="IdTrabajador" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VENT_Cliente_RRHH_Usuario">
+          <End Role="RRHH_Usuario" Type="Self.RRHH_Usuario" Multiplicity="0..1" />
+          <End Role="VENT_Cliente" Type="Self.VENT_Cliente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RRHH_Usuario">
+              <PropertyRef Name="usuario" />
+            </Principal>
+            <Dependent Role="VENT_Cliente">
+              <PropertyRef Name="UserSystem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VENT_CompraDetalle_BODE_PRODUCTO">
+          <End Role="BODE_PRODUCTO" Type="Self.BODE_PRODUCTO" Multiplicity="1" />
+          <End Role="VENT_CompraDetalle" Type="Self.VENT_CompraDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BODE_PRODUCTO">
+              <PropertyRef Name="IdProducto" />
+            </Principal>
+            <Dependent Role="VENT_CompraDetalle">
+              <PropertyRef Name="IdProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VENT_CompraDetalle_VENT_CompraEncabezado">
+          <End Role="VENT_CompraEncabezado" Type="Self.VENT_CompraEncabezado" Multiplicity="1" />
+          <End Role="VENT_CompraDetalle" Type="Self.VENT_CompraDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VENT_CompraEncabezado">
+              <PropertyRef Name="NumeroFactura" />
+            </Principal>
+            <Dependent Role="VENT_CompraDetalle">
+              <PropertyRef Name="NumeroFactura" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VENT_CompraEncabezado_RRHH_Usuario">
+          <End Role="RRHH_Usuario" Type="Self.RRHH_Usuario" Multiplicity="0..1" />
+          <End Role="VENT_CompraEncabezado" Type="Self.VENT_CompraEncabezado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RRHH_Usuario">
+              <PropertyRef Name="usuario" />
+            </Principal>
+            <Dependent Role="VENT_CompraEncabezado">
+              <PropertyRef Name="UserSystem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VENT_CompraEncabezado_VENT_Proveedor">
+          <End Role="VENT_Proveedor" Type="Self.VENT_Proveedor" Multiplicity="1" />
+          <End Role="VENT_CompraEncabezado" Type="Self.VENT_CompraEncabezado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VENT_Proveedor">
+              <PropertyRef Name="IdEmpresa" />
+            </Principal>
+            <Dependent Role="VENT_CompraEncabezado">
+              <PropertyRef Name="Idproveedor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VENT_VentaDetalle_BODE_PRODUCTO">
+          <End Role="BODE_PRODUCTO" Type="Self.BODE_PRODUCTO" Multiplicity="1" />
+          <End Role="VENT_VentaDetalle" Type="Self.VENT_VentaDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BODE_PRODUCTO">
+              <PropertyRef Name="IdProducto" />
+            </Principal>
+            <Dependent Role="VENT_VentaDetalle">
+              <PropertyRef Name="codigoproducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VENT_VentaDetalle_VENT_VentaEncabezado">
+          <End Role="VENT_VentaEncabezado" Type="Self.VENT_VentaEncabezado" Multiplicity="1" />
+          <End Role="VENT_VentaDetalle" Type="Self.VENT_VentaDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VENT_VentaEncabezado">
+              <PropertyRef Name="NumeroFactura" />
+            </Principal>
+            <Dependent Role="VENT_VentaDetalle">
+              <PropertyRef Name="codigoproducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VENT_VentaEncabezado_RRHH_Usuario">
+          <End Role="RRHH_Usuario" Type="Self.RRHH_Usuario" Multiplicity="0..1" />
+          <End Role="VENT_VentaEncabezado" Type="Self.VENT_VentaEncabezado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RRHH_Usuario">
+              <PropertyRef Name="usuario" />
+            </Principal>
+            <Dependent Role="VENT_VentaEncabezado">
+              <PropertyRef Name="UserSystem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VENT_VentaEncabezado_VENT_Cliente">
+          <End Role="VENT_Cliente" Type="Self.VENT_Cliente" Multiplicity="0..1" />
+          <End Role="VENT_VentaEncabezado" Type="Self.VENT_VentaEncabezado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VENT_Cliente">
+              <PropertyRef Name="nit" />
+            </Principal>
+            <Dependent Role="VENT_VentaEncabezado">
+              <PropertyRef Name="NitCliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="LoginUsuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="user_system" Type="varchar" Mode="In" />
+          <Parameter Name="pass" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="PuntoVentaModelStoreContainer">
+          <EntitySet Name="BODE_PRODUCTO" EntityType="Self.BODE_PRODUCTO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RRHH_Personal" EntityType="Self.RRHH_Personal" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RRHH_Usuario" EntityType="Self.RRHH_Usuario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VENT_Cliente" EntityType="Self.VENT_Cliente" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VENT_CompraDetalle" EntityType="Self.VENT_CompraDetalle" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VENT_CompraEncabezado" EntityType="Self.VENT_CompraEncabezado" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VENT_Proveedor" EntityType="Self.VENT_Proveedor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VENT_VentaDetalle" EntityType="Self.VENT_VentaDetalle" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VENT_VentaEncabezado" EntityType="Self.VENT_VentaEncabezado" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_RRHH_Usuario_RRHH_Personal" Association="Self.FK_RRHH_Usuario_RRHH_Personal">
+            <End Role="RRHH_Personal" EntitySet="RRHH_Personal" />
+            <End Role="RRHH_Usuario" EntitySet="RRHH_Usuario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VENT_Cliente_RRHH_Usuario" Association="Self.FK_VENT_Cliente_RRHH_Usuario">
+            <End Role="RRHH_Usuario" EntitySet="RRHH_Usuario" />
+            <End Role="VENT_Cliente" EntitySet="VENT_Cliente" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VENT_CompraDetalle_BODE_PRODUCTO" Association="Self.FK_VENT_CompraDetalle_BODE_PRODUCTO">
+            <End Role="BODE_PRODUCTO" EntitySet="BODE_PRODUCTO" />
+            <End Role="VENT_CompraDetalle" EntitySet="VENT_CompraDetalle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VENT_CompraDetalle_VENT_CompraEncabezado" Association="Self.FK_VENT_CompraDetalle_VENT_CompraEncabezado">
+            <End Role="VENT_CompraEncabezado" EntitySet="VENT_CompraEncabezado" />
+            <End Role="VENT_CompraDetalle" EntitySet="VENT_CompraDetalle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VENT_CompraEncabezado_RRHH_Usuario" Association="Self.FK_VENT_CompraEncabezado_RRHH_Usuario">
+            <End Role="RRHH_Usuario" EntitySet="RRHH_Usuario" />
+            <End Role="VENT_CompraEncabezado" EntitySet="VENT_CompraEncabezado" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VENT_CompraEncabezado_VENT_Proveedor" Association="Self.FK_VENT_CompraEncabezado_VENT_Proveedor">
+            <End Role="VENT_Proveedor" EntitySet="VENT_Proveedor" />
+            <End Role="VENT_CompraEncabezado" EntitySet="VENT_CompraEncabezado" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VENT_VentaDetalle_BODE_PRODUCTO" Association="Self.FK_VENT_VentaDetalle_BODE_PRODUCTO">
+            <End Role="BODE_PRODUCTO" EntitySet="BODE_PRODUCTO" />
+            <End Role="VENT_VentaDetalle" EntitySet="VENT_VentaDetalle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VENT_VentaDetalle_VENT_VentaEncabezado" Association="Self.FK_VENT_VentaDetalle_VENT_VentaEncabezado">
+            <End Role="VENT_VentaEncabezado" EntitySet="VENT_VentaEncabezado" />
+            <End Role="VENT_VentaDetalle" EntitySet="VENT_VentaDetalle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VENT_VentaEncabezado_RRHH_Usuario" Association="Self.FK_VENT_VentaEncabezado_RRHH_Usuario">
+            <End Role="RRHH_Usuario" EntitySet="RRHH_Usuario" />
+            <End Role="VENT_VentaEncabezado" EntitySet="VENT_VentaEncabezado" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VENT_VentaEncabezado_VENT_Cliente" Association="Self.FK_VENT_VentaEncabezado_VENT_Cliente">
+            <End Role="VENT_Cliente" EntitySet="VENT_Cliente" />
+            <End Role="VENT_VentaEncabezado" EntitySet="VENT_VentaEncabezado" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PuntoVentaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="PuntoVentaEntities" annotation:LazyLoadingEnabled="true">
+          <FunctionImport Name="LoginUsuario" ReturnType="Collection(PuntoVentaModel.LoginUsuario_Result)">
+            <Parameter Name="user_system" Mode="In" Type="String" />
+            <Parameter Name="pass" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(PuntoVentaModel.sp_helpdiagramdefinition_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(PuntoVentaModel.sp_helpdiagrams_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
+          <EntitySet Name="RRHH_Personal" EntityType="PuntoVentaModel.RRHH_Personal" />
+          <EntitySet Name="RRHH_Usuario" EntityType="PuntoVentaModel.RRHH_Usuario" />
+          <EntitySet Name="VENT_Cliente" EntityType="PuntoVentaModel.VENT_Cliente" />
+          <AssociationSet Name="FK_RRHH_Usuario_RRHH_Personal" Association="PuntoVentaModel.FK_RRHH_Usuario_RRHH_Personal">
+            <End Role="RRHH_Personal" EntitySet="RRHH_Personal" />
+            <End Role="RRHH_Usuario" EntitySet="RRHH_Usuario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VENT_Cliente_RRHH_Usuario" Association="PuntoVentaModel.FK_VENT_Cliente_RRHH_Usuario">
+            <End Role="RRHH_Usuario" EntitySet="RRHH_Usuario" />
+            <End Role="VENT_Cliente" EntitySet="VENT_Cliente" />
+          </AssociationSet>
+          <EntitySet Name="VENT_Proveedor" EntityType="PuntoVentaModel.VENT_Proveedor" />
+          <EntitySet Name="BODE_PRODUCTO" EntityType="PuntoVentaModel.BODE_PRODUCTO" />
+          <EntitySet Name="VENT_CompraDetalle" EntityType="PuntoVentaModel.VENT_CompraDetalle" />
+          <EntitySet Name="VENT_CompraEncabezado" EntityType="PuntoVentaModel.VENT_CompraEncabezado" />
+          <EntitySet Name="VENT_VentaDetalle" EntityType="PuntoVentaModel.VENT_VentaDetalle" />
+          <EntitySet Name="VENT_VentaEncabezado" EntityType="PuntoVentaModel.VENT_VentaEncabezado" />
+          <AssociationSet Name="FK_VENT_CompraDetalle_BODE_PRODUCTO" Association="PuntoVentaModel.FK_VENT_CompraDetalle_BODE_PRODUCTO">
+            <End Role="BODE_PRODUCTO" EntitySet="BODE_PRODUCTO" />
+            <End Role="VENT_CompraDetalle" EntitySet="VENT_CompraDetalle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VENT_VentaDetalle_BODE_PRODUCTO" Association="PuntoVentaModel.FK_VENT_VentaDetalle_BODE_PRODUCTO">
+            <End Role="BODE_PRODUCTO" EntitySet="BODE_PRODUCTO" />
+            <End Role="VENT_VentaDetalle" EntitySet="VENT_VentaDetalle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VENT_CompraEncabezado_RRHH_Usuario" Association="PuntoVentaModel.FK_VENT_CompraEncabezado_RRHH_Usuario">
+            <End Role="RRHH_Usuario" EntitySet="RRHH_Usuario" />
+            <End Role="VENT_CompraEncabezado" EntitySet="VENT_CompraEncabezado" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VENT_VentaEncabezado_RRHH_Usuario" Association="PuntoVentaModel.FK_VENT_VentaEncabezado_RRHH_Usuario">
+            <End Role="RRHH_Usuario" EntitySet="RRHH_Usuario" />
+            <End Role="VENT_VentaEncabezado" EntitySet="VENT_VentaEncabezado" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VENT_VentaEncabezado_VENT_Cliente" Association="PuntoVentaModel.FK_VENT_VentaEncabezado_VENT_Cliente">
+            <End Role="VENT_Cliente" EntitySet="VENT_Cliente" />
+            <End Role="VENT_VentaEncabezado" EntitySet="VENT_VentaEncabezado" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VENT_CompraDetalle_VENT_CompraEncabezado" Association="PuntoVentaModel.FK_VENT_CompraDetalle_VENT_CompraEncabezado">
+            <End Role="VENT_CompraEncabezado" EntitySet="VENT_CompraEncabezado" />
+            <End Role="VENT_CompraDetalle" EntitySet="VENT_CompraDetalle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VENT_CompraEncabezado_VENT_Proveedor" Association="PuntoVentaModel.FK_VENT_CompraEncabezado_VENT_Proveedor">
+            <End Role="VENT_Proveedor" EntitySet="VENT_Proveedor" />
+            <End Role="VENT_CompraEncabezado" EntitySet="VENT_CompraEncabezado" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VENT_VentaDetalle_VENT_VentaEncabezado" Association="PuntoVentaModel.FK_VENT_VentaDetalle_VENT_VentaEncabezado">
+            <End Role="VENT_VentaEncabezado" EntitySet="VENT_VentaEncabezado" />
+            <End Role="VENT_VentaDetalle" EntitySet="VENT_VentaDetalle" />
+          </AssociationSet>
+          <EntitySet Name="sysdiagrams" EntityType="PuntoVentaModel.sysdiagrams" />
+        </EntityContainer>
+        <ComplexType Name="LoginUsuario_Result">
+          <Property Type="Int32" Name="IdTrabajador" Nullable="true" />
+          <Property Type="String" Name="usuario" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="contraseña" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="estado" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagramdefinition_Result">
+          <Property Type="Int32" Name="version" Nullable="true" />
+          <Property Type="Binary" Name="definition" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagrams_Result">
+          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
+        <EntityType Name="RRHH_Personal">
+          <Key>
+            <PropertyRef Name="idtrabajador" />
+          </Key>
+          <Property Name="idtrabajador" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaNacimiento" Type="DateTime" Precision="0" />
+          <Property Name="Correo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="RRHH_Usuario" Relationship="PuntoVentaModel.FK_RRHH_Usuario_RRHH_Personal" FromRole="RRHH_Personal" ToRole="RRHH_Usuario" />
+        </EntityType>
+        <EntityType Name="RRHH_Usuario">
+          <Key>
+            <PropertyRef Name="usuario" />
+          </Key>
+          <Property Name="IdTrabajador" Type="Int32" Nullable="false" />
+          <Property Name="usuario" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="contraseña" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="estado" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="RRHH_Personal" Relationship="PuntoVentaModel.FK_RRHH_Usuario_RRHH_Personal" FromRole="RRHH_Usuario" ToRole="RRHH_Personal" />
+          <NavigationProperty Name="VENT_Cliente" Relationship="PuntoVentaModel.FK_VENT_Cliente_RRHH_Usuario" FromRole="RRHH_Usuario" ToRole="VENT_Cliente" />
+          <NavigationProperty Name="VENT_CompraEncabezado" Relationship="PuntoVentaModel.FK_VENT_CompraEncabezado_RRHH_Usuario" FromRole="RRHH_Usuario" ToRole="VENT_CompraEncabezado" />
+          <NavigationProperty Name="VENT_VentaEncabezado" Relationship="PuntoVentaModel.FK_VENT_VentaEncabezado_RRHH_Usuario" FromRole="RRHH_Usuario" ToRole="VENT_VentaEncabezado" />
+        </EntityType>
+        <EntityType Name="VENT_Cliente">
+          <Key>
+            <PropertyRef Name="nit" />
+          </Key>
+          <Property Name="nit" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaNac" Type="DateTime" Precision="0" />
+          <Property Name="Direccion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UserSystem" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="RRHH_Usuario" Relationship="PuntoVentaModel.FK_VENT_Cliente_RRHH_Usuario" FromRole="VENT_Cliente" ToRole="RRHH_Usuario" />
+          <NavigationProperty Name="VENT_VentaEncabezado" Relationship="PuntoVentaModel.FK_VENT_VentaEncabezado_VENT_Cliente" FromRole="VENT_Cliente" ToRole="VENT_VentaEncabezado" />
+        </EntityType>
+        <Association Name="FK_RRHH_Usuario_RRHH_Personal">
+          <End Type="PuntoVentaModel.RRHH_Personal" Role="RRHH_Personal" Multiplicity="1" />
+          <End Type="PuntoVentaModel.RRHH_Usuario" Role="RRHH_Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RRHH_Personal">
+              <PropertyRef Name="idtrabajador" />
+            </Principal>
+            <Dependent Role="RRHH_Usuario">
+              <PropertyRef Name="IdTrabajador" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VENT_Cliente_RRHH_Usuario">
+          <End Type="PuntoVentaModel.RRHH_Usuario" Role="RRHH_Usuario" Multiplicity="0..1" />
+          <End Type="PuntoVentaModel.VENT_Cliente" Role="VENT_Cliente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RRHH_Usuario">
+              <PropertyRef Name="usuario" />
+            </Principal>
+            <Dependent Role="VENT_Cliente">
+              <PropertyRef Name="UserSystem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="VENT_Proveedor">
+          <Key>
+            <PropertyRef Name="IdEmpresa" />
+          </Key>
+          <Property Name="IdEmpresa" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Telefono" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Direccion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Asesor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="VENT_CompraEncabezado" Relationship="PuntoVentaModel.FK_VENT_CompraEncabezado_VENT_Proveedor" FromRole="VENT_Proveedor" ToRole="VENT_CompraEncabezado" />
+        </EntityType>
+        <EntityType Name="BODE_PRODUCTO">
+          <Key>
+            <PropertyRef Name="IdProducto" />
+          </Key>
+          <Property Name="IdProducto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Marca" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Modelo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Categoria" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Existencia" Type="Int32" />
+          <Property Name="PrecioVenta" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PrecioCompra" Type="Decimal" Precision="18" Scale="2" />
+          <NavigationProperty Name="VENT_CompraDetalle" Relationship="PuntoVentaModel.FK_VENT_CompraDetalle_BODE_PRODUCTO" FromRole="BODE_PRODUCTO" ToRole="VENT_CompraDetalle" />
+          <NavigationProperty Name="VENT_VentaDetalle" Relationship="PuntoVentaModel.FK_VENT_VentaDetalle_BODE_PRODUCTO" FromRole="BODE_PRODUCTO" ToRole="VENT_VentaDetalle" />
+        </EntityType>
+        <EntityType Name="VENT_CompraDetalle">
+          <Key>
+            <PropertyRef Name="NumeroFactura" />
+            <PropertyRef Name="IdProducto" />
+          </Key>
+          <Property Name="NumeroFactura" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IdProducto" Type="Int32" Nullable="false" />
+          <Property Name="cantidad" Type="Int32" />
+          <Property Name="precioU" Type="Decimal" Precision="18" Scale="2" />
+          <NavigationProperty Name="BODE_PRODUCTO" Relationship="PuntoVentaModel.FK_VENT_CompraDetalle_BODE_PRODUCTO" FromRole="VENT_CompraDetalle" ToRole="BODE_PRODUCTO" />
+          <NavigationProperty Name="VENT_CompraEncabezado" Relationship="PuntoVentaModel.FK_VENT_CompraDetalle_VENT_CompraEncabezado" FromRole="VENT_CompraDetalle" ToRole="VENT_CompraEncabezado" />
+        </EntityType>
+        <EntityType Name="VENT_CompraEncabezado">
+          <Key>
+            <PropertyRef Name="NumeroFactura" />
+          </Key>
+          <Property Name="Idproveedor" Type="Int32" Nullable="false" />
+          <Property Name="Fecha" Type="DateTime" Precision="0" />
+          <Property Name="NumeroFactura" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UserSystem" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="RRHH_Usuario" Relationship="PuntoVentaModel.FK_VENT_CompraEncabezado_RRHH_Usuario" FromRole="VENT_CompraEncabezado" ToRole="RRHH_Usuario" />
+          <NavigationProperty Name="VENT_CompraDetalle" Relationship="PuntoVentaModel.FK_VENT_CompraDetalle_VENT_CompraEncabezado" FromRole="VENT_CompraEncabezado" ToRole="VENT_CompraDetalle" />
+          <NavigationProperty Name="VENT_Proveedor" Relationship="PuntoVentaModel.FK_VENT_CompraEncabezado_VENT_Proveedor" FromRole="VENT_CompraEncabezado" ToRole="VENT_Proveedor" />
+          <Property Name="Estado" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Total" Type="Decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="VENT_VentaDetalle">
+          <Key>
+            <PropertyRef Name="numerofactura" />
+            <PropertyRef Name="codigoproducto" />
+          </Key>
+          <Property Name="numerofactura" Type="Int32" Nullable="false" />
+          <Property Name="codigoproducto" Type="Int32" Nullable="false" />
+          <Property Name="cantidad" Type="Int32" />
+          <Property Name="costoUni" Type="Decimal" Precision="18" Scale="2" />
+          <NavigationProperty Name="BODE_PRODUCTO" Relationship="PuntoVentaModel.FK_VENT_VentaDetalle_BODE_PRODUCTO" FromRole="VENT_VentaDetalle" ToRole="BODE_PRODUCTO" />
+          <NavigationProperty Name="VENT_VentaEncabezado" Relationship="PuntoVentaModel.FK_VENT_VentaDetalle_VENT_VentaEncabezado" FromRole="VENT_VentaDetalle" ToRole="VENT_VentaEncabezado" />
+        </EntityType>
+        <EntityType Name="VENT_VentaEncabezado">
+          <Key>
+            <PropertyRef Name="NumeroFactura" />
+          </Key>
+          <Property Name="NitCliente" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="NumeroFactura" Type="Int32" Nullable="false" />
+          <Property Name="fecha" Type="DateTime" Precision="0" />
+          <Property Name="serie" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UserSystem" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="RRHH_Usuario" Relationship="PuntoVentaModel.FK_VENT_VentaEncabezado_RRHH_Usuario" FromRole="VENT_VentaEncabezado" ToRole="RRHH_Usuario" />
+          <NavigationProperty Name="VENT_Cliente" Relationship="PuntoVentaModel.FK_VENT_VentaEncabezado_VENT_Cliente" FromRole="VENT_VentaEncabezado" ToRole="VENT_Cliente" />
+          <NavigationProperty Name="VENT_VentaDetalle" Relationship="PuntoVentaModel.FK_VENT_VentaDetalle_VENT_VentaEncabezado" FromRole="VENT_VentaEncabezado" ToRole="VENT_VentaDetalle" />
+        </EntityType>
+        <Association Name="FK_VENT_CompraDetalle_BODE_PRODUCTO">
+          <End Type="PuntoVentaModel.BODE_PRODUCTO" Role="BODE_PRODUCTO" Multiplicity="1" />
+          <End Type="PuntoVentaModel.VENT_CompraDetalle" Role="VENT_CompraDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BODE_PRODUCTO">
+              <PropertyRef Name="IdProducto" />
+            </Principal>
+            <Dependent Role="VENT_CompraDetalle">
+              <PropertyRef Name="IdProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VENT_VentaDetalle_BODE_PRODUCTO">
+          <End Type="PuntoVentaModel.BODE_PRODUCTO" Role="BODE_PRODUCTO" Multiplicity="1" />
+          <End Type="PuntoVentaModel.VENT_VentaDetalle" Role="VENT_VentaDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BODE_PRODUCTO">
+              <PropertyRef Name="IdProducto" />
+            </Principal>
+            <Dependent Role="VENT_VentaDetalle">
+              <PropertyRef Name="codigoproducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VENT_CompraEncabezado_RRHH_Usuario">
+          <End Type="PuntoVentaModel.RRHH_Usuario" Role="RRHH_Usuario" Multiplicity="0..1" />
+          <End Type="PuntoVentaModel.VENT_CompraEncabezado" Role="VENT_CompraEncabezado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RRHH_Usuario">
+              <PropertyRef Name="usuario" />
+            </Principal>
+            <Dependent Role="VENT_CompraEncabezado">
+              <PropertyRef Name="UserSystem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VENT_VentaEncabezado_RRHH_Usuario">
+          <End Type="PuntoVentaModel.RRHH_Usuario" Role="RRHH_Usuario" Multiplicity="0..1" />
+          <End Type="PuntoVentaModel.VENT_VentaEncabezado" Role="VENT_VentaEncabezado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RRHH_Usuario">
+              <PropertyRef Name="usuario" />
+            </Principal>
+            <Dependent Role="VENT_VentaEncabezado">
+              <PropertyRef Name="UserSystem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VENT_VentaEncabezado_VENT_Cliente">
+          <End Type="PuntoVentaModel.VENT_Cliente" Role="VENT_Cliente" Multiplicity="0..1" />
+          <End Type="PuntoVentaModel.VENT_VentaEncabezado" Role="VENT_VentaEncabezado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VENT_Cliente">
+              <PropertyRef Name="nit" />
+            </Principal>
+            <Dependent Role="VENT_VentaEncabezado">
+              <PropertyRef Name="NitCliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VENT_CompraDetalle_VENT_CompraEncabezado">
+          <End Type="PuntoVentaModel.VENT_CompraEncabezado" Role="VENT_CompraEncabezado" Multiplicity="1" />
+          <End Type="PuntoVentaModel.VENT_CompraDetalle" Role="VENT_CompraDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VENT_CompraEncabezado">
+              <PropertyRef Name="NumeroFactura" />
+            </Principal>
+            <Dependent Role="VENT_CompraDetalle">
+              <PropertyRef Name="NumeroFactura" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VENT_CompraEncabezado_VENT_Proveedor">
+          <End Type="PuntoVentaModel.VENT_Proveedor" Role="VENT_Proveedor" Multiplicity="1" />
+          <End Type="PuntoVentaModel.VENT_CompraEncabezado" Role="VENT_CompraEncabezado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VENT_Proveedor">
+              <PropertyRef Name="IdEmpresa" />
+            </Principal>
+            <Dependent Role="VENT_CompraEncabezado">
+              <PropertyRef Name="Idproveedor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VENT_VentaDetalle_VENT_VentaEncabezado">
+          <End Type="PuntoVentaModel.VENT_VentaEncabezado" Role="VENT_VentaEncabezado" Multiplicity="1" />
+          <End Type="PuntoVentaModel.VENT_VentaDetalle" Role="VENT_VentaDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VENT_VentaEncabezado">
+              <PropertyRef Name="NumeroFactura" />
+            </Principal>
+            <Dependent Role="VENT_VentaDetalle">
+              <PropertyRef Name="codigoproducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="PuntoVentaModelStoreContainer" CdmEntityContainer="PuntoVentaEntities">
+          <FunctionImportMapping FunctionImportName="LoginUsuario" FunctionName="PuntoVentaModel.Store.LoginUsuario">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="PuntoVentaModel.LoginUsuario_Result">
+                <ScalarProperty Name="IdTrabajador" ColumnName="IdTrabajador" />
+                <ScalarProperty Name="usuario" ColumnName="usuario" />
+                <ScalarProperty Name="contraseña" ColumnName="contraseña" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="PuntoVentaModel.Store.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="PuntoVentaModel.Store.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="PuntoVentaModel.Store.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="PuntoVentaModel.Store.sp_helpdiagramdefinition">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="PuntoVentaModel.sp_helpdiagramdefinition_Result">
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="PuntoVentaModel.Store.sp_helpdiagrams">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="PuntoVentaModel.sp_helpdiagrams_Result">
+                <ScalarProperty Name="Database" ColumnName="Database" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="PuntoVentaModel.Store.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="PuntoVentaModel.Store.sp_upgraddiagrams" />
+          <EntitySetMapping Name="RRHH_Personal">
+            <EntityTypeMapping TypeName="PuntoVentaModel.RRHH_Personal">
+              <MappingFragment StoreEntitySet="RRHH_Personal">
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="FechaNacimiento" ColumnName="FechaNacimiento" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="idtrabajador" ColumnName="idtrabajador" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RRHH_Usuario">
+            <EntityTypeMapping TypeName="PuntoVentaModel.RRHH_Usuario">
+              <MappingFragment StoreEntitySet="RRHH_Usuario">
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="contraseña" ColumnName="contraseña" />
+                <ScalarProperty Name="usuario" ColumnName="usuario" />
+                <ScalarProperty Name="IdTrabajador" ColumnName="IdTrabajador" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VENT_Cliente">
+            <EntityTypeMapping TypeName="PuntoVentaModel.VENT_Cliente">
+              <MappingFragment StoreEntitySet="VENT_Cliente">
+                <ScalarProperty Name="UserSystem" ColumnName="UserSystem" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="FechaNac" ColumnName="FechaNac" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="nit" ColumnName="nit" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VENT_Proveedor">
+            <EntityTypeMapping TypeName="PuntoVentaModel.VENT_Proveedor">
+              <MappingFragment StoreEntitySet="VENT_Proveedor">
+                <ScalarProperty Name="Asesor" ColumnName="Asesor" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BODE_PRODUCTO">
+            <EntityTypeMapping TypeName="PuntoVentaModel.BODE_PRODUCTO">
+              <MappingFragment StoreEntitySet="BODE_PRODUCTO">
+                <ScalarProperty Name="PrecioCompra" ColumnName="PrecioCompra" />
+                <ScalarProperty Name="PrecioVenta" ColumnName="PrecioVenta" />
+                <ScalarProperty Name="Existencia" ColumnName="Existencia" />
+                <ScalarProperty Name="Categoria" ColumnName="Categoria" />
+                <ScalarProperty Name="Modelo" ColumnName="Modelo" />
+                <ScalarProperty Name="Marca" ColumnName="Marca" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VENT_CompraDetalle">
+            <EntityTypeMapping TypeName="PuntoVentaModel.VENT_CompraDetalle">
+              <MappingFragment StoreEntitySet="VENT_CompraDetalle">
+                <ScalarProperty Name="precioU" ColumnName="precioU" />
+                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
+                <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
+                <ScalarProperty Name="NumeroFactura" ColumnName="NumeroFactura" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VENT_CompraEncabezado">
+            <EntityTypeMapping TypeName="PuntoVentaModel.VENT_CompraEncabezado">
+              <MappingFragment StoreEntitySet="VENT_CompraEncabezado">
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="UserSystem" ColumnName="UserSystem" />
+                <ScalarProperty Name="NumeroFactura" ColumnName="NumeroFactura" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Idproveedor" ColumnName="Idproveedor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VENT_VentaDetalle">
+            <EntityTypeMapping TypeName="PuntoVentaModel.VENT_VentaDetalle">
+              <MappingFragment StoreEntitySet="VENT_VentaDetalle">
+                <ScalarProperty Name="costoUni" ColumnName="costoUni" />
+                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
+                <ScalarProperty Name="codigoproducto" ColumnName="codigoproducto" />
+                <ScalarProperty Name="numerofactura" ColumnName="numerofactura" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VENT_VentaEncabezado">
+            <EntityTypeMapping TypeName="PuntoVentaModel.VENT_VentaEncabezado">
+              <MappingFragment StoreEntitySet="VENT_VentaEncabezado">
+                <ScalarProperty Name="UserSystem" ColumnName="UserSystem" />
+                <ScalarProperty Name="serie" ColumnName="serie" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="NumeroFactura" ColumnName="NumeroFactura" />
+                <ScalarProperty Name="NitCliente" ColumnName="NitCliente" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="PuntoVentaModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

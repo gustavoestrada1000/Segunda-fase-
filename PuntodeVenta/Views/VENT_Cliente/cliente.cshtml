@@ -1,0 +1,118 @@
+﻿@model IEnumerable<PuntodeVenta.Models.VENT_Cliente>
+@{
+    ViewBag.Title = "Clientes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+
+
+
+@if (Convert.ToString(Session["DatoInsertado"]) == "si")
+{
+    Session["DatoInsertado"] = "no";
+    <script language='javascript' type='text/javascript'>alert('SE GUARDO EL RESGISTRO');</script>
+}
+
+<section class="full-width pageContent">
+    <section class="full-width header-well">
+        <div class="full-width header-well-icon">
+            <i class="zmdi zmdi-accounts"></i>
+        </div>
+        <div class="full-width header-well-text">
+            <p class="text-condensedLight">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Unde aut nulla accusantium minus corporis accusamus fuga harum natus molestias necessitatibus.
+            </p>
+        </div>
+    </section>
+    <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
+        <div class="mdl-tabs__tab-bar">
+            <a href="#tabNewClient" class="mdl-tabs__tab is-active">NEW</a>
+            <a href="#tabListClient" class="mdl-tabs__tab">LIST</a>
+        </div>
+        <div class="mdl-tabs__panel is-active" id="tabNewClient">
+            <div class="mdl-grid">
+                <div class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--8-col-desktop mdl-cell--2-offset-desktop">
+
+
+                    <div class="full-width panel mdl-shadow--2dp">
+                        <div class="full-width panel-tittle bg-primary text-center tittles">
+                            NUEVO CLIENTE
+                        </div>
+                        <div class="full-width panel-content">
+                            <form action="/VENT_Cliente/create" method="post">
+                                @Html.AntiForgeryToken()
+                                <h5 class="text-condensedLight">Datos Cliente</h5>
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                    <input class="mdl-textfield__input" type="number" pattern="-?[0-9]*(\.[0-9]+)?" id="nit" name="nit" required>
+                                    <label class="mdl-textfield__label" for="DNIClient">NIT</label>
+                                    <span class="mdl-textfield__error">Invalid number</span>
+                                </div>
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                    <input class="mdl-textfield__input" type="text" pattern="-?[A-Za-záéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="nombre" name="nombre" required>
+                                    <label class="mdl-textfield__label" for="NameClient">Nombre</label>
+                                    <span class="mdl-textfield__error">Invalid name</span>
+                                </div>
+
+
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                    <input class="mdl-textfield__input" type="text" id="direccion" name="direccion" required>
+                                    <label class="mdl-textfield__label" for="addressClient2">Dirección</label>
+                                    <span class="mdl-textfield__error">Invalid address</span>
+                                </div>
+
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                    <input class="mdl-textfield__input" id="FechaNac" name="FechaNac" type="date" required>
+                                </div>
+                                <p class="text-center">
+                                    <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored bg-primary" type="submit">
+                                        <i class="zmdi zmdi-plus"></i>
+                                    </button>
+                                    <div class="mdl-tooltip" for="btn-addClient">Add client</div>
+                                </p>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mdl-tabs__panel" id="tabListClient">
+            <center>
+                <h2>Listado de Clientes</h2>
+            </center>
+            <table class="table" border="1" style="text-align:center; margin: 0 auto;">
+                <tr>
+                    <th width="200">
+                        Nit
+                    </th>
+                    <th width="200">
+                        @Html.DisplayNameFor(model => model.Nombre)
+                    </th>
+                    <th width="200">
+                        @Html.DisplayNameFor(model => model.Direccion)
+                    </th>
+
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.nit)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Nombre)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Direccion)
+                        </td>
+
+
+                    </tr>
+                }
+
+            </table>
+
+        </div>
+    </div>
+</section>

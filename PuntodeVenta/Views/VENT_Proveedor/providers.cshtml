@@ -1,0 +1,131 @@
+﻿@model IEnumerable<PuntodeVenta.Models.VENT_Proveedor>
+@{
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<section class="full-width pageContent">
+    <section class="full-width header-well">
+        <div class="full-width header-well-icon">
+            <i class="zmdi zmdi-truck"></i>
+        </div>
+        <div class="full-width header-well-text">
+            <p class="text-condensedLight">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Unde aut nulla accusantium minus corporis accusamus fuga harum natus molestias necessitatibus.
+            </p>
+        </div>
+    </section>
+    <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
+        <div class="mdl-tabs__tab-bar">
+            <a href="#tabNewProvider" class="mdl-tabs__tab is-active">NEW</a>
+            <a href="#tabListProvider" class="mdl-tabs__tab">LIST</a>
+        </div>
+        <div class="mdl-tabs__panel is-active" id="tabNewProvider">
+            <div class="mdl-grid">
+                <div class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--8-col-desktop mdl-cell--2-offset-desktop">
+                    <div class="full-width panel mdl-shadow--2dp">
+                        <div class="full-width panel-tittle bg-primary text-center tittles">
+                            NUEVO PROVEEDOR
+                        </div>
+                        <div class="full-width panel-content">
+                            <form action="/VENT_Proveedor/create" method="post">
+                                @Html.AntiForgeryToken()
+                                <h5 class="text-condensedLight">Datos Proveedor</h5>
+
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                    <input class="mdl-textfield__input" type="text" pattern="-?[A-Za-záéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="nombre" name="nombre" required>
+                                    <label class="mdl-textfield__label" for="NameClient">Nombre De La Empresa</label>
+                                    <span class="mdl-textfield__error">Invalid name</span>
+                                </div>
+
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                    <input class="mdl-textfield__input" type="number" pattern="-?[0-9]*(\.[0-9]+)?" id="telefono" name="telefono" required>
+                                    <label class="mdl-textfield__label" for="DNIClient">Telefono</label>
+                                    <span class="mdl-textfield__error">Invalid number</span>
+                                </div>
+
+
+
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                    <input class="mdl-textfield__input" type="text" id="direccion" name="direccion" required>
+                                    <label class="mdl-textfield__label" for="addressClient2">Dirección</label>
+                                    <span class="mdl-textfield__error">Invalid address</span>
+                                </div>
+
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                    <input class="mdl-textfield__input" type="text" pattern="-?[A-Za-záéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="asesor" name="asesor" required>
+                                    <label class="mdl-textfield__label" for="NameClient">Nombre Del Asesor de Ventas </label>
+                                    <span class="mdl-textfield__error">Invalid name</span>
+                                </div>
+
+                                <p class="text-center">
+                                    <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored bg-primary" type="submit">
+                                        <i class="zmdi zmdi-plus"></i>
+                                    </button>
+                                    <div class="mdl-tooltip" for="btn-addClient">Add client</div>
+                                </p>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <div class="mdl-tabs__panel" id="tabListProvider">
+            <div class="mdl-grid">
+                <div class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--8-col-desktop mdl-cell--2-offset-desktop">
+                    <div class="full-width panel mdl-shadow--2dp">
+                        <div class="full-width panel-tittle bg-success text-center tittles">
+                            Listado de Proveedores
+                        </div>
+                        <div class="full-width panel-content">
+                            <table class="table" border="1" style="text-align:center; margin: 0 auto;">
+                                <tr>
+                                    <th width="200">
+                                        @Html.DisplayNameFor(model => model.Nombre)
+                                    </th>
+                                    <th width="200">
+                                        @Html.DisplayNameFor(model => model.Telefono)
+                                    </th>
+                                    <th width="200">
+                                        @Html.DisplayNameFor(model => model.Direccion)
+                                    </th>
+                                    <th width="200">
+                                        @Html.DisplayNameFor(model => model.Asesor)
+                                    </th>
+                                    <th></th>
+                                </tr>
+
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Nombre)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Telefono)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Direccion)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Asesor)
+                                        </td>
+
+                                    </tr>
+                                }
+
+                            </table>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
